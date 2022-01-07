@@ -1,12 +1,15 @@
 import UIKit
+import CoreLocation
 
 class ViewController: UIViewController {
     
     private var itemsForCollection = Array<HourlyWeather>()
     private var itemsForTable = Array<DailyWeather>()
-    
+    private var currentLocation = CLLocation()
+
     private let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "en-US")
         return formatter
     }()
     
@@ -18,6 +21,7 @@ class ViewController: UIViewController {
         view.backgroundColor = .clear
         view.separatorStyle = .singleLine
         view.separatorColor = .white
+        
         return view
     }()
     
@@ -26,10 +30,23 @@ class ViewController: UIViewController {
         return HoursWeatherCell()
     }()
     
+    private let refreshControl: UIRefreshControl = {
+        let control = UIRefreshControl()
+        control.attributedTitle = NSAttributedString(string: "Updating data")
+        control.addTarget(self, action: #selector(refresh(_:)), for: .valueChanged)
+        return control
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        let currentLocation = LocationService.shared.currentLocation
         configure()
+        refresh(self)
+    }
+    
+    @objc
+    func refresh(_ sender: Any) {
+        LocationService.shared.updateLocation()
+        currentLocation = LocationService.shared.currentLocation
         APIClient.shared.reverseGeoCoding(currentLocation.coordinate.latitude, currentLocation.coordinate.longitude, completion: { [self] result in
             switch result {
             case .success(let string):
@@ -66,6 +83,7 @@ class ViewController: UIViewController {
                 print(error)
             }
         })
+        refreshControl.endRefreshing()
     }
     
     override func viewDidLayoutSubviews() {
@@ -78,7 +96,7 @@ class ViewController: UIViewController {
         view.addSubview(tableView)
         tableView.delegate = self
         tableView.dataSource = self
-        
+        tableView.addSubview(refreshControl)
         headerView = HeaderView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 300))
         tableView.tableHeaderView = headerView
         tableView.backgroundColor = .clear
