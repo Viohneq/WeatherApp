@@ -33,15 +33,17 @@ final class DaysWeatherTableViewCell: UITableViewCell {
     var degreesDay: UILabel = {
         let label = UILabel()
         label.textColor = .white
-        label.font = UIFont.preferredFont(forTextStyle: .subheadline).withSize(30)
+        label.textAlignment = .right
+        label.font = UIFont.preferredFont(forTextStyle: .subheadline).withSize(25)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     var degreesNight: UILabel = {
         let label = UILabel()
-        label.textColor = .white
-        label.font = UIFont.preferredFont(forTextStyle: .subheadline).withSize(30)
+        label.textColor = .white.withAlphaComponent(0.5)
+        label.textAlignment = .right
+        label.font = UIFont.preferredFont(forTextStyle: .subheadline).withSize(25)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -89,11 +91,13 @@ final class DaysWeatherTableViewCell: UITableViewCell {
         ]
         let dayConstrains = [
             degreesDay.centerYAnchor.constraint(equalTo: centerYAnchor),
-            degreesDay.centerXAnchor.constraint(equalTo: centerXAnchor)
+            degreesDay.centerXAnchor.constraint(equalTo: centerXAnchor),
+            degreesDay.widthAnchor.constraint(equalToConstant: 50)
         ]
         let nightConstrains = [
             degreesNight.centerYAnchor.constraint(equalTo: centerYAnchor),
-            degreesNight.centerXAnchor.constraint(equalTo: centerXAnchor, constant: 75)
+            degreesNight.centerXAnchor.constraint(equalTo: centerXAnchor, constant: 75),
+            degreesNight.widthAnchor.constraint(equalToConstant: 50)
         ]
         let dateConstrains = [
             date.topAnchor.constraint(equalTo: topAnchor, constant: 5),
