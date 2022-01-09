@@ -2,9 +2,14 @@ import UIKit
 
 final class WeatherCollectionViewCell: UICollectionViewCell {
     
+    private let dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "en-US")
+        return formatter
+    }()
+    
     var time: UILabel = {
         let label = UILabel()
-        label.text = "10:00"
         label.textColor = .white
         label.font = UIFont.preferredFont(forTextStyle: .subheadline)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -13,14 +18,12 @@ final class WeatherCollectionViewCell: UICollectionViewCell {
     
     var icon: UIImageView = {
         let icon = UIImageView()
-        icon.image = UIImage(named: "snow.png")
         icon.translatesAutoresizingMaskIntoConstraints = false
         return icon
     }()
     
     var degrees: UILabel = {
         let label = UILabel()
-        label.text = "-5 °C"
         label.textColor = .white
         label.font = UIFont.preferredFont(forTextStyle: .subheadline)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -37,10 +40,25 @@ final class WeatherCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func configure(with hourlyWeather: HourlyWeather) {
+        degrees.text = "\(Int(hourlyWeather.temp))°C"
+        dateFormatter.dateFormat = "HH:mm"
+        time.text = dateFormatter.string(from: NSDate(timeIntervalSince1970: TimeInterval(hourlyWeather.dt)) as Date)
+        switch hourlyWeather.weather[0].main {
+        case "Snow":
+            icon.image = UIImage(named: "snow.png")
+        case "Clouds":
+            icon.image = UIImage(named: "clouds.png")
+        default:
+            icon.image = UIImage(named: "sun.png")
+        }
+    }
+    
     private func setupViews() {
         addSubview(degrees)
         addSubview(icon)
         addSubview(time)
+        backgroundColor = .clear
     }
     
     private func constrains() {

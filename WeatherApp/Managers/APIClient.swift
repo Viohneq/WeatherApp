@@ -10,11 +10,11 @@ enum APIError: Error {
 }
 
 class APIClient {
-
+    
     static let shared = APIClient()
     
     func oneCall(_ latitude: Double, _ longitude: Double,
-                           completion: @escaping (Result<OneCallResponse, Error>) -> Void) {
+                 completion: @escaping (Result<OneCallResponse, Error>) -> Void) {
         guard let url = URL(string: "\(Constants.baseURL)data/2.5/onecall?lat=\(latitude)&lon=\(longitude)&appid=\(Constants.API_KEY)&units=metric") else { return }
         let task = URLSession.shared.dataTask(with: URLRequest(url: url)) { responseData, _, error in
             guard let data = responseData, error == nil else {

@@ -56,6 +56,28 @@ final class HeaderView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+    }
+    
+    func configure(with currentWeather: CurrentWeather) {
+            degrees.text = "\(Int(currentWeather.temp)) °C"
+            feels.text = "Feels like \(Int(currentWeather.feels_like)) °C"
+            desc.text = currentWeather.weather[0].description
+            switch currentWeather.weather[0].main {
+            case "Snow":
+                icon.image = UIImage(named: "snow.png")
+            case "Clouds":
+                icon.image = UIImage(named: "clouds.png")
+            default:
+                icon.image = UIImage(named: "sun.png")
+            }
+    }
+    
+    func setCity(_ city: String) {
+        town.text = city
+    }
+    
     private func setupViews() {
         addSubview(town)
         addSubview(icon)
@@ -64,10 +86,6 @@ final class HeaderView: UIView {
         addSubview(degrees)
         addSubview(separator)
         constrains()
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
     }
     
     private func constrains() {

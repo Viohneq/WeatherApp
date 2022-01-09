@@ -50,12 +50,5 @@ final class HoursWeatherCell: UITableViewCell {
         ]
         NSLayoutConstraint.activate(separatorConstrains)
     }
-
-}
-
-extension UITableViewCell {
-    open override func addSubview(_ view: UIView) {
-        super.addSubview(view)
-        sendSubviewToBack(contentView)
-    }
+    
 }

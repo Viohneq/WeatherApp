@@ -2,9 +2,14 @@ import UIKit
 
 final class DaysWeatherTableViewCell: UITableViewCell {
     
+    private let dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "en-US")
+        return formatter
+    }()
+    
     var date: UILabel = {
         let label = UILabel()
-        label.text = "7 January"
         label.textColor = .white.withAlphaComponent(0.5)
         label.font = UIFont.preferredFont(forTextStyle: .subheadline)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -13,7 +18,6 @@ final class DaysWeatherTableViewCell: UITableViewCell {
     
     var dayOfWeek: UILabel = {
         let label = UILabel()
-        label.text = "Thursday"
         label.textColor = .white
         label.font = UIFont.preferredFont(forTextStyle: .subheadline)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -22,14 +26,12 @@ final class DaysWeatherTableViewCell: UITableViewCell {
     
     var icon: UIImageView = {
         let icon = UIImageView()
-        icon.image = UIImage(named: "snow.png")
         icon.translatesAutoresizingMaskIntoConstraints = false
         return icon
     }()
     
     var degreesDay: UILabel = {
         let label = UILabel()
-        label.text = "-5°"
         label.textColor = .white
         label.font = UIFont.preferredFont(forTextStyle: .subheadline).withSize(30)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -38,7 +40,6 @@ final class DaysWeatherTableViewCell: UITableViewCell {
     
     var degreesNight: UILabel = {
         let label = UILabel()
-        label.text = "-8°"
         label.textColor = .white
         label.font = UIFont.preferredFont(forTextStyle: .subheadline).withSize(30)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -53,6 +54,23 @@ final class DaysWeatherTableViewCell: UITableViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func configure(with dailyWeather: DailyWeather) {
+        switch dailyWeather.weather[0].main {
+        case "Snow":
+            icon.image = UIImage(named: "snow.png")
+        case "Clouds":
+            icon.image = UIImage(named: "clouds.png")
+        default:
+            icon.image = UIImage(named: "sun.png")
+        }
+        dateFormatter.dateFormat = "D MMMM"
+        date.text = dateFormatter.string(from: Date(timeIntervalSince1970: TimeInterval(dailyWeather.dt)))
+        dateFormatter.dateFormat = "EEEE"
+        dayOfWeek.text = dateFormatter.string(from: Date(timeIntervalSince1970: TimeInterval(dailyWeather.dt)))
+        degreesDay.text = "\(Int(dailyWeather.temp.day))°"
+        degreesNight.text = "\(Int(dailyWeather.temp.night))°"
     }
     
     private func setupViews() {

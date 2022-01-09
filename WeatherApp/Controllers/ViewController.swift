@@ -3,20 +3,12 @@ import CoreLocation
 
 class ViewController: UIViewController {
     
-    private var itemsForCollection = Array<HourlyWeather>()
-    private var itemsForTable = Array<DailyWeather>()
-    private var currentLocation = CLLocation()
-
-    private let dateFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "en-US")
-        return formatter
-    }()
+    private var hourlyItems = Array<HourlyWeather>()
+    private var dailyItems = Array<DailyWeather>()
     
     private let tableView: UITableView = {
         let view = UITableView(frame: .zero, style: .grouped)
         view.register(UITableViewCell.self, forCellReuseIdentifier: "simplecell")
-        view.register(HoursWeatherCell.self, forCellReuseIdentifier: "cell")
         view.register(DaysWeatherTableViewCell.self, forCellReuseIdentifier: "dayscell")
         view.backgroundColor = .clear
         view.separatorStyle = .singleLine
@@ -46,12 +38,11 @@ class ViewController: UIViewController {
     @objc
     func refresh(_ sender: Any) {
         LocationService.shared.updateLocation()
-        currentLocation = LocationService.shared.currentLocation
-        APIClient.shared.reverseGeoCoding(currentLocation.coordinate.latitude, currentLocation.coordinate.longitude, completion: { [self] result in
+        APIClient.shared.reverseGeoCoding(LocationService.shared.currentLocation.coordinate.latitude, LocationService.shared.currentLocation.coordinate.longitude, completion: { [self] result in
             switch result {
             case .success(let string):
                 DispatchQueue.main.async {
-                    headerView.town.text = string
+                    headerView.setCity(string)
                 }
             case .failure(let error):
                 print(error)
@@ -59,23 +50,13 @@ class ViewController: UIViewController {
             
         })
         
-        APIClient.shared.oneCall(currentLocation.coordinate.latitude, currentLocation.coordinate.longitude, completion: { [self] result in
+        APIClient.shared.oneCall(LocationService.shared.currentLocation.coordinate.latitude, LocationService.shared.currentLocation.coordinate.longitude, completion: { [self] result in
             switch result {
             case .success(let data):
                 DispatchQueue.main.async {
-                    headerView.degrees.text = "\(Int(data.current.temp)) °C"
-                    headerView.feels.text = "Feels like \(Int(data.current.feels_like)) °C"
-                    headerView.desc.text = data.current.weather[0].description
-                    switch data.current.weather[0].main {
-                    case "Snow":
-                        headerView.icon.image = UIImage(named: "snow.png")
-                    case "Clouds":
-                        headerView.icon.image = UIImage(named: "clouds.png")
-                    default:
-                        headerView.icon.image = UIImage(named: "sun.png")
-                    }
-                    itemsForCollection = data.hourly
-                    itemsForTable = data.daily
+                    headerView.configure(with: data.current)
+                    hourlyItems = data.hourly
+                    dailyItems = data.daily
                     collectionCell.collection.reloadData()
                     tableView.reloadData()
                 }
@@ -107,12 +88,12 @@ class ViewController: UIViewController {
     private func setGradientBackground() {
         let colorTop =  UIColor(red: 255.0/255.0, green: 149.0/255.0, blue: 0.0/255.0, alpha: 1.0).cgColor
         let colorBottom = UIColor(red: 255.0/255.0, green: 94.0/255.0, blue: 58.0/255.0, alpha: 1.0).cgColor
-                    
+        
         let gradientLayer = CAGradientLayer()
         gradientLayer.colors = [colorTop, colorBottom]
         gradientLayer.locations = [0.0, 1.0]
         gradientLayer.frame = self.view.bounds
-                
+        
         self.view.layer.insertSublayer(gradientLayer, at:0)
     }
     
@@ -121,7 +102,7 @@ class ViewController: UIViewController {
 
 extension ViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return itemsForTable.count + 1
+        return dailyItems.count + 1
     }
     
     
@@ -132,25 +113,12 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
             cell.collection.dataSource = self
             cell.collection.delegate = self
             return cell
-        case 1...itemsForTable.count:
+        case 1...dailyItems.count:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "dayscell") as? DaysWeatherTableViewCell else {
                 return DaysWeatherTableViewCell()
             }
+            cell.configure(with: dailyItems[indexPath.row-1])
             cell.isUserInteractionEnabled = false
-            switch itemsForTable[indexPath.row-1].weather[0].main {
-            case "Snow":
-                cell.icon.image = UIImage(named: "snow.png")
-            case "Clouds":
-                cell.icon.image = UIImage(named: "clouds.png")
-            default:
-                cell.icon.image = UIImage(named: "sun.png")
-            }
-            dateFormatter.dateFormat = "D MMMM"
-            cell.date.text = dateFormatter.string(from: Date(timeIntervalSince1970: TimeInterval(itemsForTable[indexPath.row-1].dt)))
-            dateFormatter.dateFormat = "EEEE"
-            cell.dayOfWeek.text = dateFormatter.string(from: Date(timeIntervalSince1970: TimeInterval(itemsForTable[indexPath.row-1].dt)))
-            cell.degreesDay.text = "\(Int(itemsForTable[indexPath.row-1].temp.day))°"
-            cell.degreesNight.text = "\(Int(itemsForTable[indexPath.row-1].temp.night))°"
             return cell
         default:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "simplecell") else {
@@ -183,23 +151,12 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
 
 extension ViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return itemsForCollection.count
+        return hourlyItems.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionCell.collection.dequeueReusableCell(withReuseIdentifier: "collectioncell", for: indexPath) as! WeatherCollectionViewCell
-        cell.backgroundColor = .clear
-        cell.degrees.text = "\(Int(itemsForCollection[indexPath.row].temp))°C"
-        dateFormatter.dateFormat = "HH:mm"
-        cell.time.text = dateFormatter.string(from: NSDate(timeIntervalSince1970: TimeInterval(itemsForCollection[indexPath.row].dt)) as Date)
-        switch itemsForCollection[indexPath.row].weather[0].main {
-        case "Snow":
-            cell.icon.image = UIImage(named: "snow.png")
-        case "Clouds":
-            cell.icon.image = UIImage(named: "clouds.png")
-        default:
-            cell.icon.image = UIImage(named: "sun.png")
-        }
+        cell.configure(with: hourlyItems[indexPath.row])
         return cell
     }
     

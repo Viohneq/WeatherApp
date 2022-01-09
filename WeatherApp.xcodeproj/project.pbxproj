@@ -19,6 +19,7 @@
 		799E30BD27889F24001B5DEA /* Weather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 799E30BC27889F24001B5DEA /* Weather.swift */; };
 		799E30BF2788A14B001B5DEA /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 799E30BE2788A14B001B5DEA /* LocationManager.swift */; };
 		799E30C12788C457001B5DEA /* City.swift in Sources */ = {isa = PBXBuildFile; fileRef = 799E30C02788C457001B5DEA /* City.swift */; };
+		799E30C7278B2410001B5DEA /* UITableViewCell+AddSubview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 799E30C6278B2410001B5DEA /* UITableViewCell+AddSubview.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,7 @@
 		799E30BC27889F24001B5DEA /* Weather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weather.swift; sourceTree = "<group>"; };
 		799E30BE2788A14B001B5DEA /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		799E30C02788C457001B5DEA /* City.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = City.swift; sourceTree = "<group>"; };
+		799E30C6278B2410001B5DEA /* UITableViewCell+AddSubview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableViewCell+AddSubview.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,6 +102,7 @@
 		799E30C22788DEAE001B5DEA /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				799E30C5278B23FA001B5DEA /* Extensions */,
 				799E30AC27878123001B5DEA /* HeaderView.swift */,
 				799E30AE27878549001B5DEA /* HoursWeatherCell.swift */,
 				799E30B4278881E2001B5DEA /* WeatherCollectionViewCell.swift */,
@@ -123,6 +126,14 @@
 				799E30A12784EFD4001B5DEA /* LaunchScreen.storyboard */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		799E30C5278B23FA001B5DEA /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				799E30C6278B2410001B5DEA /* UITableViewCell+AddSubview.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -203,6 +214,7 @@
 				799E30AD27878123001B5DEA /* HeaderView.swift in Sources */,
 				799E30C12788C457001B5DEA /* City.swift in Sources */,
 				799E30AF27878549001B5DEA /* HoursWeatherCell.swift in Sources */,
+				799E30C7278B2410001B5DEA /* UITableViewCell+AddSubview.swift in Sources */,
 				799E30972784EFCF001B5DEA /* AppDelegate.swift in Sources */,
 				799E30BF2788A14B001B5DEA /* LocationManager.swift in Sources */,
 			);
