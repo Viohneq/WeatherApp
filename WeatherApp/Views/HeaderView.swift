@@ -69,6 +69,8 @@ final class HeaderView: UIView {
                 icon.image = UIImage(named: "snow.png")
             case "Clouds":
                 icon.image = UIImage(named: "clouds.png")
+            case "Rain":
+                icon.image = UIImage(named: "rain.png")
             default:
                 icon.image = UIImage(named: "sun.png")
             }
