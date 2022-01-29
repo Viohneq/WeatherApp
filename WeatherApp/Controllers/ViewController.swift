@@ -2,7 +2,6 @@ import UIKit
 import CoreLocation
 
 class ViewController: UIViewController {
-    
     private var hourlyItems = Array<HourlyWeather>()
     private var dailyItems = Array<DailyWeather>()
     
@@ -29,10 +28,21 @@ class ViewController: UIViewController {
         return control
     }()
     
+    private let barButtonItem: UIBarButtonItem = {
+        let item = UIBarButtonItem(image: UIImage(named: "burger.png"), style: UIBarButtonItem.Style.done, target: self, action: #selector(menuBarButtonTapped))
+        item.tintColor = .white
+        return item
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configure()
         refresh(self)
+    }
+    
+    @objc
+    func menuBarButtonTapped() {
+        
     }
     
     @objc
@@ -81,8 +91,8 @@ class ViewController: UIViewController {
         headerView = HeaderView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 300))
         tableView.tableHeaderView = headerView
         tableView.backgroundColor = .clear
-        navigationController?.navigationBar.backgroundColor = .clear
         setGradientBackground()
+        setupNavigationBar()
     }
     
     private func setGradientBackground() {
@@ -95,6 +105,16 @@ class ViewController: UIViewController {
         gradientLayer.frame = self.view.bounds
         
         self.view.layer.insertSublayer(gradientLayer, at:0)
+    }
+    
+    private func setupNavigationBar() {
+        navigationController?.navigationBar.backgroundColor = .clear
+        navigationItem.leftBarButtonItem = barButtonItem
+        let navigationBarAppearance = UINavigationBarAppearance()
+        navigationBarAppearance.configureWithTransparentBackground()
+        navigationItem.scrollEdgeAppearance = navigationBarAppearance
+        navigationItem.standardAppearance = navigationBarAppearance
+        navigationItem.compactAppearance = navigationBarAppearance
     }
     
     
@@ -166,4 +186,3 @@ extension ViewController: UICollectionViewDataSource {
     
     
 }
-

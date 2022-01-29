@@ -14,11 +14,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         LocationService.shared.updateLocation()
-        let mainViewController = ViewController()
-        let navigationController = UINavigationController(rootViewController:mainViewController)
+        let mainViewController = ContainerViewController()
         window = UIWindow()
         window?.makeKeyAndVisible()
-        window?.rootViewController = navigationController
+        window?.rootViewController = mainViewController
         return true
     }
 

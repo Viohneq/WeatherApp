@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7963FAB127A5B7B5005E1FE9 /* SideBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7963FAB027A5B7B5005E1FE9 /* SideBarViewController.swift */; };
+		7963FAB327A5BB72005E1FE9 /* ContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7963FAB227A5BB72005E1FE9 /* ContainerViewController.swift */; };
 		799E30972784EFCF001B5DEA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 799E30962784EFCF001B5DEA /* AppDelegate.swift */; };
 		799E309B2784EFCF001B5DEA /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 799E309A2784EFCF001B5DEA /* ViewController.swift */; };
 		799E30A02784EFD4001B5DEA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 799E309F2784EFD4001B5DEA /* Assets.xcassets */; };
@@ -23,6 +25,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7963FAB027A5B7B5005E1FE9 /* SideBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideBarViewController.swift; sourceTree = "<group>"; };
+		7963FAB227A5BB72005E1FE9 /* ContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerViewController.swift; sourceTree = "<group>"; };
 		799E30932784EFCF001B5DEA /* WeatherApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		799E30962784EFCF001B5DEA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		799E309A2784EFCF001B5DEA /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -115,6 +119,8 @@
 			isa = PBXGroup;
 			children = (
 				799E309A2784EFCF001B5DEA /* ViewController.swift */,
+				7963FAB027A5B7B5005E1FE9 /* SideBarViewController.swift */,
+				7963FAB227A5BB72005E1FE9 /* ContainerViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -208,11 +214,13 @@
 			files = (
 				799E30BD27889F24001B5DEA /* Weather.swift in Sources */,
 				799E30B5278881E2001B5DEA /* WeatherCollectionViewCell.swift in Sources */,
+				7963FAB327A5BB72005E1FE9 /* ContainerViewController.swift in Sources */,
 				799E30BA27889D44001B5DEA /* APIClient.swift in Sources */,
 				799E30B72788858B001B5DEA /* DaysWeatherTableViewCell.swift in Sources */,
 				799E309B2784EFCF001B5DEA /* ViewController.swift in Sources */,
 				799E30AD27878123001B5DEA /* HeaderView.swift in Sources */,
 				799E30C12788C457001B5DEA /* CityLocation.swift in Sources */,
+				7963FAB127A5B7B5005E1FE9 /* SideBarViewController.swift in Sources */,
 				799E30AF27878549001B5DEA /* HoursWeatherCell.swift in Sources */,
 				799E30C7278B2410001B5DEA /* UITableViewCell+AddSubview.swift in Sources */,
 				799E30972784EFCF001B5DEA /* AppDelegate.swift in Sources */,
