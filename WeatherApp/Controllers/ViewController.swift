@@ -68,6 +68,7 @@ class ViewController: UIViewController {
                     hourlyItems = data.hourly
                     dailyItems = data.daily
                     collectionCell.collection.reloadData()
+                    collectionCell.collection.scrollToItem(at: IndexPath(item: 0, section: 0), at: .left, animated: true)
                     tableView.reloadData()
                 }
             case .failure(let error):
@@ -96,8 +97,8 @@ class ViewController: UIViewController {
     }
     
     private func setGradientBackground() {
-        let colorTop =  UIColor(red: 255.0/255.0, green: 149.0/255.0, blue: 0.0/255.0, alpha: 1.0).cgColor
-        let colorBottom = UIColor(red: 255.0/255.0, green: 94.0/255.0, blue: 58.0/255.0, alpha: 1.0).cgColor
+        let colorTop =  UIColor(red: 125.0/255.0, green: 100.0/255.0, blue: 2.0/255.0, alpha: 1.0).cgColor
+        let colorBottom = UIColor(red: 255.0/255.0, green: 54.0/255.0, blue: 58.0/255.0, alpha: 1.0).cgColor
         
         let gradientLayer = CAGradientLayer()
         gradientLayer.colors = [colorTop, colorBottom]

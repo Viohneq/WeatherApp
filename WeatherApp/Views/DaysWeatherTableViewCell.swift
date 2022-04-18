@@ -69,10 +69,11 @@ final class DaysWeatherTableViewCell: UITableViewCell {
         default:
             icon.image = UIImage(named: "sun.png")
         }
-        dateFormatter.dateFormat = "D MMMM"
-        date.text = dateFormatter.string(from: Date(timeIntervalSince1970: TimeInterval(dailyWeather.dt)))
+        dateFormatter.dateFormat = "d MMMM"
+        let dateFromTimestamp = NSDate(timeIntervalSince1970: TimeInterval(dailyWeather.dt))
+        date.text = dateFormatter.string(from: dateFromTimestamp as Date)
         dateFormatter.dateFormat = "EEEE"
-        dayOfWeek.text = dateFormatter.string(from: Date(timeIntervalSince1970: TimeInterval(dailyWeather.dt)))
+        dayOfWeek.text = dateFormatter.string(from: dateFromTimestamp as Date)
         degreesDay.text = "\(Int(dailyWeather.temp.day))°"
         degreesNight.text = "\(Int(dailyWeather.temp.night))°"
     }
