@@ -21,17 +21,17 @@ class ViewController: UIViewController {
         return HoursWeatherCell()
     }()
     
-    private let refreshControl: UIRefreshControl = {
-        let control = UIRefreshControl()
-        control.attributedTitle = NSAttributedString(string: "Updating data")
-        control.addTarget(self, action: #selector(refresh(_:)), for: .valueChanged)
-        return control
+    private lazy var refreshControl: UIRefreshControl = {
+        let _control = UIRefreshControl()
+        _control.attributedTitle = NSAttributedString(string: "Updating data")
+        _control.addTarget(self, action: #selector(refresh(_:)), for: .valueChanged)
+        return _control
     }()
     
-    private let barButtonItem: UIBarButtonItem = {
-        let item = UIBarButtonItem(image: UIImage(named: "burger.png"), style: UIBarButtonItem.Style.done, target: self, action: #selector(menuBarButtonTapped))
-        item.tintColor = .white
-        return item
+    private lazy var barButtonItem: UIBarButtonItem = {
+        let _item = UIBarButtonItem(image: UIImage(named: "burger.png"), style: UIBarButtonItem.Style.done, target: self, action: #selector(menuBarButtonTapped))
+        _item.tintColor = .white
+        return _item
     }()
     
     override func viewDidLoad() {
@@ -51,7 +51,7 @@ class ViewController: UIViewController {
         APIClient.shared.reverseGeoCoding(LocationService.shared.currentLocation.coordinate.latitude, LocationService.shared.currentLocation.coordinate.longitude, completion: { [self] result in
             switch result {
             case .success(let string):
-                DispatchQueue.main.async {
+                DispatchQueue.main.async { [self] in
                     headerView.setCity(string)
                 }
             case .failure(let error):
@@ -63,7 +63,7 @@ class ViewController: UIViewController {
         APIClient.shared.oneCall(LocationService.shared.currentLocation.coordinate.latitude, LocationService.shared.currentLocation.coordinate.longitude, completion: { [self] result in
             switch result {
             case .success(let data):
-                DispatchQueue.main.async {
+                DispatchQueue.main.async { [self] in
                     headerView.configure(with: data.current)
                     hourlyItems = data.hourly
                     dailyItems = data.daily

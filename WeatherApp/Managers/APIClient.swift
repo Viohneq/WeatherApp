@@ -8,6 +8,7 @@ struct Constants {
 
 enum APIError: Error {
     case failedGetData
+    case failedNilData
 }
 
 class APIClient {
@@ -41,7 +42,11 @@ class APIClient {
             
             do {
                 let results = try JSONDecoder().decode([CityLocation].self, from: data)
-                completion(.success(results[0].name))
+                if !results.isEmpty {
+                    completion(.success(results[0].name))
+                } else {
+                    completion(.failure(APIError.failedNilData))
+                }
             } catch {
                 completion(.failure(APIError.failedGetData))
             }
